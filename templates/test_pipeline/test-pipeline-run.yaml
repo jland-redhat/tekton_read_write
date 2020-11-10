@@ -1,0 +1,11 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: test-pipeline-init-run-4
+spec:
+  pipelineRef:
+    name: test-pipeline
+  workspaces:
+  - name: shared-workspace
+    persistentvolumeclaim:
+      claimName: shared-workspace

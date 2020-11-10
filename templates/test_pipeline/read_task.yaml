@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: read-task
+spec:
+  steps:
+    - command:
+        - ls
+      image: registry.redhat.io/ubi7/ubi-minimal
+      name: show-directory
+      resources: {}
+      workingDir:  $(workspaces.file-directory.path)
+    - command:
+        - cat
+        - testFile.txt
+      image: registry.redhat.io/ubi7/ubi-minimal
+      name: read-test-file
+      resources: {}
+      workingDir:  $(workspaces.file-directory.path)
+  workspaces:
+  - name: file-directory
+    description: The folder where we read the message from
+    mountPath: /workspace/moodyRead

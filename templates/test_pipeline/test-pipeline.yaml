@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  generation: 2
+  name: test-pipeline
+spec:
+  tasks:
+    - name: write-task
+      taskRef:
+        kind: Task
+        name: write-task  
+      workspaces:
+      - name: file-directory
+        workspace: shared-workspace
+    - name: read-task
+      runAfter:
+        - write-task
+      taskRef:
+        kind: Task
+        name: read-task
+      workspaces:
+      - name: file-directory
+        workspace: shared-workspace
+  workspaces:
+    - name: shared-workspace

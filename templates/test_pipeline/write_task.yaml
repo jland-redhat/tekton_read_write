@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: write-task
+spec:
+  steps:
+    - script: |
+        echo 'Testing 123' > testFile.txt
+      image: registry.redhat.io/ubi7/ubi-minimal
+      name: write-to-test-file
+      resources: {}
+      workingDir: $(workspaces.file-directory.path)
+    - command:
+        - cat
+        - testFile.txt
+      image: registry.redhat.io/ubi7/ubi-minimal
+      name: read-test-file
+      resources: {}
+      workingDir:  $(workspaces.file-directory.path)
+  workspaces:
+  - name: file-directory
+    description: The folder where we write the message to
+    mountPath: /workspace/moodyWrite
